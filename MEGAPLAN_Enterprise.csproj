@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="AcCoreMgd">
+      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2022\AcCoreMgd.dll</HintPath>
+    </Reference>
+
+    <Reference Include="AcDbMgd">
+      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2022\AcDbMgd.dll</HintPath>
+    </Reference>
+
+    <Reference Include="AcMgd">
+      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2022\AcMgd.dll</HintPath>
+    </Reference>
+
+    <Reference Include="AeccDbMgd">
+      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2022\AeccDbMgd.dll</HintPath>
+    </Reference>
+
+    <Reference Include="AeccLandMgd">
+      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2022\AeccLandMgd.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
