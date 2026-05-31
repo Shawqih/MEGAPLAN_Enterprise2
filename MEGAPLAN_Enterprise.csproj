@@ -1,30 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>MEGAPLAN_Enterprise</AssemblyName>
+    <RootNamespace>MEGAPLAN_Enterprise</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- إضافة الثوابت المشروطة للإصدارات المختلفة -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DefineConstants>RELEASE;TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <!-- تحديد متغيرات البيئة للمسارات -->
+  <PropertyGroup>
+    <!-- البحث عن AutoCAD: قائمة الخيارات بترتيب التفضيل -->
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files\Autodesk\AutoCAD Civil 3D 2025')">C:\Program Files\Autodesk\AutoCAD Civil 3D 2025</AutoCADPath>
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files\Autodesk\AutoCAD Civil 3D 2024')">C:\Program Files\Autodesk\AutoCAD Civil 3D 2024</AutoCADPath>
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files\Autodesk\AutoCAD Civil 3D 2023')">C:\Program Files\Autodesk\AutoCAD Civil 3D 2023</AutoCADPath>
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files\Autodesk\AutoCAD Civil 3D 2022')">C:\Program Files\Autodesk\AutoCAD Civil 3D 2022</AutoCADPath>
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files\Autodesk\AutoCAD Civil 3D 2021')">C:\Program Files\Autodesk\AutoCAD Civil 3D 2021</AutoCADPath>
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files\Autodesk\AutoCAD Civil 3D 2020')">C:\Program Files\Autodesk\AutoCAD Civil 3D 2020</AutoCADPath>
+    
+    <!-- محاولة Program Files (x86) -->
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2025')">C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2025</AutoCADPath>
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2024')">C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2024</AutoCADPath>
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2023')">C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2023</AutoCADPath>
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2022')">C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2022</AutoCADPath>
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2021')">C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2021</AutoCADPath>
+    <AutoCADPath Condition="'$(AutoCADPath)' == '' AND Exists('C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2020')">C:\Program Files (x86)\Autodesk\AutoCAD Civil 3D 2020</AutoCADPath>
+  </PropertyGroup>
+
+  <!-- عرض رسالة إذا لم يتم العثور على AutoCAD -->
+  <Target Name="CheckAutoCADInstallation" BeforeTargets="PrepareForBuild">
+    <Warning Text="لم يتم العثور على AutoCAD Civil 3D. قد تفشل المراجع. يرجى تثبيت AutoCAD Civil 3D أو تعيين متغير AutoCADPath" Condition="'$(AutoCADPath)' == ''" />
+  </Target>
+
+  <!-- المراجع من AutoCAD -->
+  <ItemGroup Condition="'$(AutoCADPath)' != ''">
     <Reference Include="AcCoreMgd">
-      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2022\AcCoreMgd.dll</HintPath>
+      <HintPath>$(AutoCADPath)\AcCoreMgd.dll</HintPath>
+      <Private>False</Private>
+      <CopyLocal>False</CopyLocal>
     </Reference>
 
     <Reference Include="AcDbMgd">
-      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2022\AcDbMgd.dll</HintPath>
+      <HintPath>$(AutoCADPath)\AcDbMgd.dll</HintPath>
+      <Private>False</Private>
+      <CopyLocal>False</CopyLocal>
     </Reference>
 
     <Reference Include="AcMgd">
-      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2022\AcMgd.dll</HintPath>
+      <HintPath>$(AutoCADPath)\AcMgd.dll</HintPath>
+      <Private>False</Private>
+      <CopyLocal>False</CopyLocal>
     </Reference>
 
     <Reference Include="AeccDbMgd">
-      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2022\AeccDbMgd.dll</HintPath>
+      <HintPath>$(AutoCADPath)\AeccDbMgd.dll</HintPath>
+      <Private>False</Private>
+      <CopyLocal>False</CopyLocal>
     </Reference>
 
     <Reference Include="AeccLandMgd">
-      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2022\AeccLandMgd.dll</HintPath>
+      <HintPath>$(AutoCADPath)\AeccLandMgd.dll</HintPath>
+      <Private>False</Private>
+      <CopyLocal>False</CopyLocal>
     </Reference>
+  </ItemGroup>
+
+  <!-- المراجع القياسية -->
+  <ItemGroup>
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
   </ItemGroup>
 
 </Project>
